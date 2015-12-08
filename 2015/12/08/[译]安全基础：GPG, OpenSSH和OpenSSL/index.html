@@ -5,20 +5,17 @@
   
   <title>[译]安全基础：GPG, OpenSSH和OpenSSL | byunicorn&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="写在开头这是一篇译文，原文链接是Security basics with GPG, OpenSSH and OpenSSL。之所以想要翻译是因为电面的时候被问到https的问题，自己以前有看过这篇文章，但是忘得差不多了没能回答好，所以想要翻译出来，加深印象。由于时间有限，有很多翻得很生硬的地方，还请见谅。
-介绍这篇文章并不打算向你介绍“如何保证安全性”——我并不是一个安全方面的专家。正如标题所述，">
+  <meta name="description" content="写在开头这是一篇译文，原文链接是Security basics with GPG, OpenSSH and OpenSSL。之所以想要翻译是因为电面的时候被问到https的问题，自己以前有看过这篇文章，但是忘得差不多了没能回答好，所以想要翻译出来，加深印象。由于时间有限，有很多翻得很生硬的地方，还请见谅。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="[译]安全基础：GPG, OpenSSH和OpenSSL">
 <meta property="og:url" content="http://unicorn-42.com/2015/12/08/[译]安全基础：GPG, OpenSSH和OpenSSL/index.html">
 <meta property="og:site_name" content="byunicorn's blog">
-<meta property="og:description" content="写在开头这是一篇译文，原文链接是Security basics with GPG, OpenSSH and OpenSSL。之所以想要翻译是因为电面的时候被问到https的问题，自己以前有看过这篇文章，但是忘得差不多了没能回答好，所以想要翻译出来，加深印象。由于时间有限，有很多翻得很生硬的地方，还请见谅。
-介绍这篇文章并不打算向你介绍“如何保证安全性”——我并不是一个安全方面的专家。正如标题所述，">
+<meta property="og:description" content="写在开头这是一篇译文，原文链接是Security basics with GPG, OpenSSH and OpenSSL。之所以想要翻译是因为电面的时候被问到https的问题，自己以前有看过这篇文章，但是忘得差不多了没能回答好，所以想要翻译出来，加深印象。由于时间有限，有很多翻得很生硬的地方，还请见谅。">
 <meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/MAC.svg/661px-MAC.svg.png">
-<meta property="og:updated_time" content="2015-12-08T15:41:15.821Z">
+<meta property="og:updated_time" content="2015-12-08T16:00:10.297Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="[译]安全基础：GPG, OpenSSH和OpenSSL">
-<meta name="twitter:description" content="写在开头这是一篇译文，原文链接是Security basics with GPG, OpenSSH and OpenSSL。之所以想要翻译是因为电面的时候被问到https的问题，自己以前有看过这篇文章，但是忘得差不多了没能回答好，所以想要翻译出来，加深印象。由于时间有限，有很多翻得很生硬的地方，还请见谅。
-介绍这篇文章并不打算向你介绍“如何保证安全性”——我并不是一个安全方面的专家。正如标题所述，">
+<meta name="twitter:description" content="写在开头这是一篇译文，原文链接是Security basics with GPG, OpenSSH and OpenSSL。之所以想要翻译是因为电面的时候被问到https的问题，自己以前有看过这篇文章，但是忘得差不多了没能回答好，所以想要翻译出来，加深印象。由于时间有限，有很多翻得很生硬的地方，还请见谅。">
   
     <link rel="alternative" href="/atom.xml" title="byunicorn&#39;s blog" type="application/atom+xml">
   
@@ -86,7 +83,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="u5199_u5728_u5F00_u5934"><a href="#u5199_u5728_u5F00_u5934" class="headerlink" title="写在开头"></a>写在开头</h1><p>这是一篇译文，原文链接是<a href="http://www.integralist.co.uk/posts/security-basics.html" target="_blank" rel="external">Security basics with GPG, OpenSSH and OpenSSL</a>。之所以想要翻译是因为电面的时候被问到https的问题，自己以前有看过这篇文章，但是忘得差不多了没能回答好，所以想要翻译出来，加深印象。由于时间有限，有很多翻得很生硬的地方，还请见谅。</p>
+        <h1 id="u5199_u5728_u5F00_u5934"><a href="#u5199_u5728_u5F00_u5934" class="headerlink" title="写在开头"></a>写在开头</h1><p>这是一篇译文，原文链接是<a href="http://www.integralist.co.uk/posts/security-basics.html" target="_blank" rel="external">Security basics with GPG, OpenSSH and OpenSSL</a>。之所以想要翻译是因为电面的时候被问到https的问题，自己以前有看过这篇文章，但是忘得差不多了没能回答好，所以想要翻译出来，加深印象。由于时间有限，有很多翻得很生硬的地方，还请见谅。<br><a id="more"></a></p>
 <h1 id="u4ECB_u7ECD"><a href="#u4ECB_u7ECD" class="headerlink" title="介绍"></a>介绍</h1><p>这篇文章并不打算向你介绍“如何保证安全性”——我并不是一个安全方面的专家。正如标题所述，这是一篇关于安全基础的文章。如果你正在维护生产环境下的应用或者服务，那么请去咨询安全方面的专家。</p>
 <p>注：虽然读起来很艰涩，但是还是强烈推荐Ivan Ristić的“Bulletproof SSL and TLS”</p>
 <p>这篇文章的实际目的有两个：</p>
@@ -334,7 +331,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://unicorn-42.com/2015/12/08/[译]安全基础：GPG, OpenSSH和OpenSSL/" data-id="cihxkmeo20005doq5gx27a81m" class="article-share-link">Share</a>
+      <a data-url="http://unicorn-42.com/2015/12/08/[译]安全基础：GPG, OpenSSH和OpenSSL/" data-id="cihxkvlmw0005bwq5w72dve1x" class="article-share-link">Share</a>
       
       
     </footer>
